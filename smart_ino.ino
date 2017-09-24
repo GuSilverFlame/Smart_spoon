@@ -68,6 +68,11 @@ void draw(int temp){
     display.setCursor(8,1);
     display.println("Pode se servir!");
   }
+  display.drawRect(0, 0, 5, 64, WHITE);
+  if(temp >= 25){
+    int progress = (((temp-25)*100)/25)*0.64;
+    display.fillRect(1, 64 - progress, 4, progress , WHITE);
+  }
   display.display();
 }
 float read_temp(){
