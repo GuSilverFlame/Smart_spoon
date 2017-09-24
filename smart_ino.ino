@@ -24,7 +24,7 @@ void loop(void)
 {
   int curr_temp = read_temp();
   draw(curr_temp);
-  if(curr_temp >= 30.0)
+  if(curr_temp <= 50.0)
     digitalWrite(heat_pin, HIGH);
   else
     digitalWrite(heat_pin, LOW);
@@ -35,7 +35,7 @@ void draw(int temp){
   char out_temp[6];
   sprintf(out_temp, "%dºC\n", temp);
   Serial.print(out_temp);
-  if(temp > 30.0){
+  if(temp >= 50.0){
     Serial.print("Pronto!");
   }
 }
