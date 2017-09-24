@@ -53,10 +53,14 @@ float read_temp(){
      average += samples[i];
   }
   average /= NUMSAMPLES;
-  
+  Serial.print("Average analog reading ");
+  Serial.println(average);
+  // convert the value to resistance
   average = 1023 / average - 1;
   average = SERIESRESISTOR / average;
-   
+  Serial.print("Thermistor resistance ");
+  Serial.println(average);
+
   float steinhart;
   steinhart = average / THERMISTORNOMINAL;
   steinhart = log(steinhart);
@@ -66,5 +70,10 @@ float read_temp(){
   steinhart -= 273.15;
     
   delay(10);
+
+  Serial.print("Temperature ");
+  Serial.print(steinhart);
+  Serial.println(" *C");
+
   return steinhart;
 }
