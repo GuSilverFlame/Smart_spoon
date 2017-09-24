@@ -13,7 +13,7 @@ uint16_t samples[NUMSAMPLES];
 
 float read_temp();
 
-int heat_pin = 11;
+int heat_pin = 10;
 
 void setup(void) {
   Serial.begin(9600);
