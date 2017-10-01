@@ -219,9 +219,9 @@ void loop(void)
     display.clearDisplay();
     int curr_temp = read_temp();
     if(powr_flag == 1)
-      draw_wait(curr_temp);
+      draw_wait();
     else
-      draw_temp();
+      draw_temp(curr_temp);
     if(curr_temp <= 50.0){
       heating_flag = 1;
       digitalWrite(heat_pin, HIGH);
