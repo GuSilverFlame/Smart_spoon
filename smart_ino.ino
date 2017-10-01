@@ -15,7 +15,9 @@ Adafruit_SSD1306 display(OLED_RESET);
 #error("Height incorrect, please fix Adafruit_SSD1306.h!");
 #endif
 
-void draw(int temp);
+void draw_temp(int temp);
+void draw_wait();
+void power_off();
 
 #define THERMISTORPIN A0
 #define THERMISTORNOMINAL 10000
@@ -30,25 +32,70 @@ float read_temp();
 
 int heat_pin = 10;
 
+int interrupto_pin = 7;
+int powr_flag = 1;
+int heating_flag = 0;
+
 void setup(void) {
   Serial.begin(9600);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
+  pinMode(interrupto_pin, INPUT);
   analogReference(EXTERNAL);
   pinMode(heat_pin, OUTPUT);
 }
 
 void loop(void) 
 {
-  display.clearDisplay();
-  int curr_temp = read_temp();
-  draw(curr_temp);
+  if(powr_flag > 0){
+    display.clearDisplay();
+    int curr_temp = read_temp();
+    if(powr_flag == 1)
+      draw_wait(curr_temp);
+    else
+      draw_temp();
+    if(curr_temp <= 50.0){
+      heating_flag = 1;
+      digitalWrite(heat_pin, HIGH);
+    }
+    else{
+      heating_flag = 0;
+      digitalWrite(heat_pin, LOW);
+    }
+    delay(50);
+  }
+  else{
+    turn_off();
+  }
   display.display();
-  if(curr_temp <= 50.0)
-    digitalWrite(heat_pin, HIGH);
+  if(digitalRead(interrupto_pin)==HIGH)
+    powerCycle();
+
+}
+
+void powerCycle(){
+  int timer = 0;
+  int state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
+  while (state) {
+    delay(100);
+    timer++;
+    for(int i = 0;i< NUMSAMPLES && state == 1; i++){
+      Serial.println(state);
+      state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
+    }
+    if(timer > 10){
+      turn_off();
+      display.display();
+    }
+  }
+  if (timer < 10) {
+    if(powr_flag == 2 || powr_flag == 0)
+      powr_flag = 1;
+    else
+      powr_flag = 2;
+  }
   else
-    digitalWrite(heat_pin, LOW);
-  delay(50);
+    powr_flag = 0;
 }
 
 void draw(int temp){
@@ -113,3 +160,11 @@ float read_temp(){
 
   return steinhart;
 }
+void turn_off(){
+  display.clearDisplay();
+  if(heating_flag){
+    heating_flag = 0;
+    digitalWrite(heat_pin, LOW);
+  }
+}
+
