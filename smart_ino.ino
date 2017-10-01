@@ -24,7 +24,7 @@ void power_off();
 #define TEMPERATURENOMINAL 25
 #define NUMSAMPLES 5
 #define BCOEFFICIENT 3950
-#define SERIESRESISTOR 10000    
+#define SERIESRESISTOR 10000
 
 uint16_t samples[NUMSAMPLES];
 
@@ -182,7 +182,7 @@ void setup(void) {
   pinMode(heat_pin, OUTPUT);
 }
 
-void loop(void) 
+void loop(void)
 {
   if(powr_flag > 0){
     display.clearDisplay();
@@ -307,6 +307,7 @@ float read_temp(){
 
   return steinhart;
 }
+
 void turn_off(){
   display.clearDisplay();
   if(heating_flag){
