@@ -18,6 +18,7 @@ Adafruit_SSD1306 display(OLED_RESET);
 void draw_temp(int temp);
 void draw_wait();
 void turn_off();
+void power_cycle();
 
 #define THERMISTORPIN A0
 #define THERMISTORNOMINAL 10000
@@ -206,11 +207,11 @@ void loop(void)
   }
   display.display();
   if(digitalRead(interrupto_pin)==HIGH)
-    powerCycle();
+    power_cycle();
 
 }
 
-void powerCycle(){
+void power_cycle(){
   int timer = 0;
   int state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
   while (state) {
