@@ -122,10 +122,25 @@ void draw(int temp){
   }
   display.display();
 }
+
+void draw_wait(){
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(WHITE);
+  display.setCursor(6,5);
+  display.println("aperte para aquecer");
+  display.drawCircle(60, 40, 11, WHITE);
+  display.fillRect(55, 25, 11, 11, BLACK);
+  display.fillRect(58, 25, 3, 15, WHITE);
+  display.setCursor(0,56);
+  display.println("*segure para desligar");
+  display.display();
+}
+
 float read_temp(){
   uint8_t i;
   float average;
-  
+
   for (i=0; i< NUMSAMPLES; i++) {
    samples[i] = analogRead(THERMISTORPIN);
    delay(10);
