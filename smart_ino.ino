@@ -174,6 +174,9 @@ void setup(void) {
   Serial.begin(9600);
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
+  display.drawBitmap(0, 0,  logo, 128, 64, 1);
+  display.display();
+  delay(5000);
   pinMode(interrupto_pin, INPUT);
   analogReference(EXTERNAL);
   pinMode(heat_pin, OUTPUT);
