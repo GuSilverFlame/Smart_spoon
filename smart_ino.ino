@@ -235,28 +235,31 @@ void powerCycle(){
     powr_flag = 0;
 }
 
-void draw(int temp){
-  char out_temp[6];
-  sprintf(out_temp, "%d C", temp);
-  display.setTextSize(3);
-  display.setTextColor(WHITE);
-  display.setCursor(25,20);
+void draw_temp(int temp){
   display.clearDisplay();
-  display.println(out_temp);
-  display.drawCircle(65, 20, 4, WHITE);
-  display.drawRect(20, 15, 80, 30, WHITE);
-  Serial.print(out_temp);
   if(temp >= 50.0){
-    display.setTextSize(1);
+    display.drawBitmap(0, 0,  end_bkg, 128, 64, 1);
+    display.setTextSize(2);
     display.setTextColor(WHITE);
-    display.setCursor(8,1);
-    display.println("Pode se servir!");
+    display.setCursor(20,8);
+    display.println("Pode se \n servir!");
+  }
+  else{
+    char out_temp[6];
+    sprintf(out_temp, "%d C", temp);
+    display.setTextSize(3);
+    display.setTextColor(WHITE);
+    display.setCursor(25,20);
+    display.println(out_temp);
+    display.drawCircle(65, 20, 4, WHITE);
+    display.drawRect(20, 15, 80, 30, WHITE);
   }
   display.drawRect(0, 0, 5, 64, WHITE);
   if(temp >= 25){
     int progress = (((temp-25)*100)/25)*0.64;
     display.fillRect(1, 64 - progress, 4, progress , WHITE);
   }
+
   display.display();
 }
 
