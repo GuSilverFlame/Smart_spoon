@@ -17,7 +17,7 @@ Adafruit_SSD1306 display(OLED_RESET);
 
 void draw_temp(int temp);
 void draw_wait();
-void power_off();
+void turn_off();
 
 #define THERMISTORPIN A0
 #define THERMISTORNOMINAL 10000
