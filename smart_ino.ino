@@ -33,7 +33,7 @@ float read_temp();
 
 int heat_pin = 10;
 
-int interrupto_pin = 7;
+int power_button = 7;
 int powr_flag = 1;
 int heating_flag = 0;
 
@@ -178,7 +178,7 @@ void setup(void) {
   display.drawBitmap(0, 0,  logo, 128, 64, 1);
   display.display();
   delay(5000);
-  pinMode(interrupto_pin, INPUT);
+  pinMode(power_button, INPUT);
   analogReference(EXTERNAL);
   pinMode(heat_pin, OUTPUT);
 }
@@ -206,19 +206,19 @@ void loop(void)
     turn_off();
   }
   display.display();
-  if(digitalRead(interrupto_pin)==HIGH)
+  if(digitalRead(power_button)==HIGH)
     power_cycle();
 
 }
 
 void power_cycle(){
   int timer = 0;
-  int state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
+  int state = digitalRead(power_button) == HIGH ? 1 : 0;
   while (state) {
     delay(100);
     timer++;
     for(int i = 0;i< NUMSAMPLES && state == 1; i++){
-      state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
+      state = digitalRead(power_button) == HIGH ? 1 : 0;
     }
     if(timer > 10){
       turn_off();
