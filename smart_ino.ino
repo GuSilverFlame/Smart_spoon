@@ -217,7 +217,6 @@ void powerCycle(){
     delay(100);
     timer++;
     for(int i = 0;i< NUMSAMPLES && state == 1; i++){
-      Serial.println(state);
       state = digitalRead(interrupto_pin) == HIGH ? 1 : 0;
     }
     if(timer > 10){
@@ -282,22 +281,19 @@ float read_temp(){
   float average;
 
   for (i=0; i< NUMSAMPLES; i++) {
-   samples[i] = analogRead(THERMISTORPIN);
-   delay(10);
+    samples[i] = analogRead(THERMISTORPIN);
+    delay(10);
   }
-   
+
   average = 0;
   for (i=0; i< NUMSAMPLES; i++) {
-     average += samples[i];
+    average += samples[i];
   }
   average /= NUMSAMPLES;
-  Serial.print("Average analog reading ");
-  Serial.println(average);
+
   // convert the value to resistance
   average = 1023 / average - 1;
   average = SERIESRESISTOR / average;
-  Serial.print("Thermistor resistance ");
-  Serial.println(average);
 
   float steinhart;
   steinhart = average / THERMISTORNOMINAL;
@@ -306,12 +302,8 @@ float read_temp(){
   steinhart += 1.0 / (TEMPERATURENOMINAL + 273.15);
   steinhart = 1.0 / steinhart;
   steinhart -= 273.15;
-    
-  delay(10);
 
-  Serial.print("Temperature ");
-  Serial.print(steinhart);
-  Serial.println(" *C");
+  delay(10);
 
   return steinhart;
 }
