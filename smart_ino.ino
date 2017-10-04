@@ -222,7 +222,7 @@ void loop(void)
       draw_wait();
     else
       draw_temp(curr_temp);
-    if(curr_temp <= 50.0){
+    if(curr_temp <= 45.0){
       heating_flag = 1;
       digitalWrite(heat_pin, HIGH);
     }
@@ -267,7 +267,7 @@ void power_cycle(){
 
 void draw_temp(int temp){
   display.clearDisplay();
-  if(temp >= 50.0){
+  if(temp >= 45.0){
     display.drawBitmap(0, 0,  end_bkg, 128, 64, 1);
     display.setTextSize(2);
     display.setTextColor(WHITE);
@@ -286,7 +286,7 @@ void draw_temp(int temp){
   }
   display.drawRect(0, 0, 5, 64, WHITE);
   if(temp >= 25){
-    int progress = (((temp-25)*100)/25)*0.64;
+    int progress = (((temp-25)*100)/20)*0.64;
     display.fillRect(1, 64 - progress, 4, progress , WHITE);
   }
 
